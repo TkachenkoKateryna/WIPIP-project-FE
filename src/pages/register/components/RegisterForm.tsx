@@ -1,38 +1,42 @@
-import { FC } from 'react';
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, styled, Typography } from '@mui/material';
+import { FC } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useDispatch } from '../../../store/store';
 
 import TextInput from '../../../components/inputs/TextInput';
-import { useDispatch } from '../../../store/store';
-import { loginThunk } from '../../../store/auth/auth.actions';
+import { UserRole } from '../../../constants/UserRole';
 import { formSetErrors } from '../../../helpers/formSetError';
+import { registerThunk } from '../../../store/auth/auth.actions';
 
 const schema = yup.object().shape({
 	email: yup.string().email().required(),
 	password: yup.string().required().min(4).max(20),
+	username: yup.string().required(),
 });
 
-const LoginForm: FC = () => {
+const RegisterForm: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const methods = useForm<LoginFormValues>({
+	const methods = useForm<RegisterFormValues>({
 		resolver: yupResolver(schema),
 		defaultValues: {
 			email: '',
 			password: '',
+			username: '',
+			role: UserRole.LEAD,
 		},
 	});
 
-	const onSubmit: SubmitHandler<LoginFormValues> = async (payload) => {
+	const onSubmit: SubmitHandler<RegisterFormValues> = async (payload) => {
 		try {
-			await dispatch(loginThunk(payload));
+			await dispatch(registerThunk(payload));
 			navigate('/');
 		} catch (error) {
-			formSetErrors<LoginFormValues>(error, methods.setError);
+			formSetErrors<RegisterFormValues>(error, methods.setError);
 		}
 	};
 
@@ -40,16 +44,17 @@ const LoginForm: FC = () => {
 		<Root>
 			<FormProvider {...methods}>
 				<form onSubmit={methods.handleSubmit(onSubmit)}>
+					<TextInput name='username' label='Username' />
 					<TextInput name='email' label='Email' />
 					<TextInput name='password' label='Password' />
 
 					<Typography variant='body1'>
-						If you are not registered, please, go to
-						<Link to='/auth/register'> Register Page </Link>
+						If you are already registered, please, go to
+						<Link to='/auth/login'> Login Page </Link>
 					</Typography>
 
 					<Button type='submit' variant='contained'>
-						Login
+						Register
 					</Button>
 				</form>
 			</FormProvider>
@@ -57,7 +62,7 @@ const LoginForm: FC = () => {
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;
 
 const Root = styled('div')(({ theme }) => ({
 	form: {

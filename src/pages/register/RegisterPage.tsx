@@ -1,14 +1,13 @@
-import { styled } from '@mui/material';
 import { FC } from 'react';
-
+import { styled } from '@mui/material';
+import RegisterForm from './components/RegisterForm';
 import AuthSrc from '../../assets/images/login.png';
-import LoginForm from './components/LoginForm';
 
-const LoginPage: FC = () => {
+const RegisterPage: FC = () => {
 	return (
 		<Root>
 			<FormWrapper>
-				<LoginForm />
+				<RegisterForm />
 			</FormWrapper>
 			<ImageWrapper>
 				<img src={AuthSrc} />
@@ -17,7 +16,7 @@ const LoginPage: FC = () => {
 	);
 };
 
-export default LoginPage;
+export default RegisterPage;
 
 const Root = styled('div')({
 	display: 'flex',

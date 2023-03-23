@@ -14,7 +14,6 @@ const TextInput: FC<Props> = ({ name, label }) => {
 			name={name}
 			control={control}
 			render={({ field, formState: { errors } }) => {
-				console.log('field', field);
 				return (
 					<TextField
 						{...field}

@@ -1,13 +1,13 @@
-import { FC } from 'react';
-import { IconButton, styled, Typography } from '@mui/material';
-import { Logout, Login } from '@mui/icons-material';
+import { Login, Logout } from '@mui/icons-material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { IconButton, styled, Typography } from '@mui/material';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as ReactLogo } from '../../assets/images/logo.svg';
+import { logoutThunk } from '../../store/auth/auth.actions';
 import { getUser } from '../../store/auth/auth.selectors';
 import { useDispatch, useSelector } from '../../store/store';
-import { logout } from '../../store/auth/auth.slice';
 
 const Header: FC = () => {
 	const user = useSelector(getUser);
@@ -31,9 +31,8 @@ const Header: FC = () => {
 					<IconButton>
 						<Logout
 							fontSize='large'
-							onClick={() => {
-								dispatch(logout());
-								localStorage.removeItem('token');
+							onClick={async () => {
+								await dispatch(logoutThunk());
 								navigate('/');
 							}}
 						/>

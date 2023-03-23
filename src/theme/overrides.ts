@@ -27,6 +27,13 @@ const componentsOverrides = (theme: Theme): Components<unknown> => ({
 			},
 		},
 	},
+	MuiTextField: {
+		styleOverrides: {
+			root: {
+				marginBottom: theme.spacing(1),
+			},
+		},
+	},
 });
 
 export default componentsOverrides;

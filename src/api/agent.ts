@@ -1,19 +1,61 @@
-import axios, { AxiosHeaders, AxiosResponse } from 'axios';
-import { store } from '../store/store';
+import axiosLib, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+import { ValidationError } from '../models/ValidationError';
+
+const axios = axiosLib.create({
+	baseURL: 'http://localhost:5000/api',
+});
+
+export const setAuthorizationHeader = (token?: string) => {
+	if (token) {
+		axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+	} else {
+		delete axios.defaults.headers.common['Authorization'];
+	}
+};
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-axios.interceptors.request.use((config) => {
-	const token = store.getState().authReducer.token;
-	console.log('token', token);
-	if (token && config.headers) {
-		(config.headers as AxiosHeaders).set('Authorization', `Bearer ${token}`);
-	}
+axios.interceptors.response.use(
+	async (response) => {
+		return response;
+	},
+	(error: AxiosError) => {
+		const { StatusCode, Field, Message } = error.response?.data as ApiError;
 
-	return config;
-});
+		if (Field) {
+			throw new ValidationError(Message, Field, StatusCode);
+		} else {
+			let message = '';
+			if (Message) {
+				message = Message;
+			} else {
+				switch (StatusCode) {
+					case 401:
+						message = 'You sre not authorized';
+						break;
+					case 403:
+						message = 'Forbidding info';
+						break;
+					case 404:
+						message = 'Not-found error';
+						break;
+					case 500:
+						message = 'Server-error error';
+						break;
+					default:
+						message = 'Something went wrong';
+						break;
+				}
+			}
+
+			toast.error(message);
+		}
+
+		return Promise.reject(error);
+	}
+);
 
 const requests = {
 	get: <T>(url: string) => axios.get<T>(url).then(responseBody),

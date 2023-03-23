@@ -1,9 +1,10 @@
+import { FC } from 'react';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { Box } from '@mui/material';
 import List from '@mui/material/List';
 import NavListItem from './components/NavListItem';
 
-const Sidebar = () => {
+const Sidebar: FC = () => {
 	return (
 		<Box
 			sx={{
