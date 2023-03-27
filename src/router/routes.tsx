@@ -3,7 +3,9 @@ import App from '../App/App';
 import NotFoundPage from '../pages/errors/NotFoundPage';
 import HomePage from '../pages/home/HomePage';
 import LoginPage from '../pages/login/LoginPage';
+import Projects from '../pages/projects/Projects';
 import RegisterPage from '../pages/register/RegisterPage';
+import AuthGuard from './guards/AuthGuard';
 import GuestGuard from './guards/GuestGuard';
 import Path from './paths';
 
@@ -35,6 +37,14 @@ export const routes: RouteObject[] = [
 						),
 					},
 				],
+			},
+			{
+				path: Path.projects,
+				element: (
+					<AuthGuard>
+						<Projects />
+					</AuthGuard>
+				),
 			},
 			{ path: Path.default, element: <NotFoundPage /> },
 		],

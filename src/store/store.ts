@@ -11,9 +11,11 @@ import {
 } from 'react-redux';
 
 import authReducer from './auth/auth.slice';
+import projectsReducer from './projects/projects.slice';
 
 export const rootReducer = combineReducers({
 	authReducer,
+	projectsReducer,
 });
 
 const store = configureStore({

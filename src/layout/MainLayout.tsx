@@ -13,8 +13,8 @@ const MainLayout: FC = () => {
 	return (
 		<Root>
 			<Header />
+			{isAuthenticated && <Sidebar />}
 			<Main>
-				{isAuthenticated && <Sidebar />}
 				<Outlet />
 			</Main>
 		</Root>
@@ -24,13 +24,12 @@ const MainLayout: FC = () => {
 export default MainLayout;
 
 const Root = styled('div')({
-	display: 'flex',
-	flexDirection: 'column',
 	height: '100%',
 	minHeight: '100vh',
+	display: 'flex',
+	flexWrap: 'wrap',
 });
 
 const Main = styled('main')(() => ({
-	display: 'flex',
 	flex: 1,
 }));

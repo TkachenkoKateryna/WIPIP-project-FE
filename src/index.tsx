@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider, Box } from '@mui/material';
 import './assets/styles/index.css';
 import theme from './theme/theme';
 import { RouterProvider } from 'react-router-dom';

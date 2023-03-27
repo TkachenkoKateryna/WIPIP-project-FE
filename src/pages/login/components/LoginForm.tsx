@@ -1,14 +1,14 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { Button, styled, Typography } from '@mui/material';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import TextInput from '../../../components/inputs/TextInput';
-import { useDispatch } from '../../../store/store';
-import { loginThunk } from '../../../store/auth/auth.actions';
 import { formSetErrors } from '../../../helpers/formSetError';
+import { loginThunk } from '../../../store/auth/auth.actions';
+import { useDispatch } from '../../../store/store';
 
 const schema = yup.object().shape({
 	email: yup.string().email().required(),
@@ -37,9 +37,9 @@ const LoginForm: FC = () => {
 	};
 
 	return (
-		<Root>
-			<FormProvider {...methods}>
-				<form onSubmit={methods.handleSubmit(onSubmit)}>
+		<FormProvider {...methods}>
+			<form onSubmit={methods.handleSubmit(onSubmit)}>
+				<Stack spacing={1}>
 					<TextInput name='email' label='Email' />
 					<TextInput name='password' label='Password' />
 
@@ -51,23 +51,10 @@ const LoginForm: FC = () => {
 					<Button type='submit' variant='contained'>
 						Login
 					</Button>
-				</form>
-			</FormProvider>
-		</Root>
+				</Stack>
+			</form>
+		</FormProvider>
 	);
 };
 
 export default LoginForm;
-
-const Root = styled('div')(({ theme }) => ({
-	form: {
-		display: 'flex',
-		flexDirection: 'column',
-	},
-	button: {
-		marginBottom: theme.spacing(),
-	},
-	p: {
-		margin: theme.spacing(1, 0, 1, 0),
-	},
-}));

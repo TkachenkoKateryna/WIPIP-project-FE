@@ -9,7 +9,6 @@ const componentsOverrides = (theme: Theme): Components<unknown> => ({
 				margin: '0 auto',
 				fontFamily: 'Roboto',
 				color: theme.palette.text.primary,
-				maxWidth: 1300,
 			},
 			body: {
 				overflowX: 'hidden',
@@ -31,6 +30,45 @@ const componentsOverrides = (theme: Theme): Components<unknown> => ({
 		styleOverrides: {
 			root: {
 				marginBottom: theme.spacing(1),
+			},
+		},
+	},
+	MuiTableContainer: {
+		styleOverrides: {
+			root: {
+				borderRadius: 5,
+			},
+		},
+	},
+	MuiTableRow: {
+		styleOverrides: {
+			root: ({ ownerState }) => ({
+				'&:last-child td, &:last-child th': {
+					border: 0,
+				},
+				...(ownerState.hover && {
+					'&:hover': {
+						cursor: 'pointer',
+					},
+				}),
+			}),
+		},
+	},
+	MuiTableCell: {
+		styleOverrides: {
+			root: {
+				padding: '8px 12px',
+
+				'&:first-of-type': {
+					paddingLeft: 20,
+				},
+				'&:last-child': {
+					paddingRight: 20,
+				},
+			},
+			head: {
+				backgroundColor: theme.palette.grey[300],
+				fontSize: 15,
 			},
 		},
 	},
