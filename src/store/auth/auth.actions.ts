@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 
-import agent from '../../api/agent';
+import agent, { setAuthorizationHeader } from '../../api/agent';
 import { ThunkAction } from '../store';
 import { logout, setToken, setUser } from './auth.slice';
 
@@ -24,6 +24,7 @@ export const authorize = (
 				};
 			} else {
 				dispatch(setToken(token));
+				setAuthorizationHeader(token);
 
 				const user = await agent.Auth.getUser();
 				dispatch(setUser(user));
@@ -38,12 +39,26 @@ export const loginThunk = (
 	user: LoginFormValues
 ): ThunkAction<Promise<void>> => {
 	return async (dispatch) => {
-		try {
-			const token = await agent.Auth.login(user);
-			localStorage.setItem('token', token);
-			dispatch(authorize(token));
-		} catch (error) {
-			throw Error();
-		}
+		const token = await agent.Auth.login(user);
+		localStorage.setItem('token', token);
+		dispatch(authorize(token));
+	};
+};
+
+export const registerThunk = (
+	user: RegisterFormValues
+): ThunkAction<Promise<void>> => {
+	return async (dispatch) => {
+		const token = await agent.Auth.register(user);
+		localStorage.setItem('token', token);
+		dispatch(authorize(token));
+	};
+};
+
+export const logoutThunk = (): ThunkAction<Promise<void>> => {
+	return async (dispatch) => {
+		await dispatch(logout());
+		localStorage.removeItem('token');
+		setAuthorizationHeader();
 	};
 };

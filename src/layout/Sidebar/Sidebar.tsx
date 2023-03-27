@@ -1,25 +1,29 @@
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Box } from '@mui/material';
+import { styled } from '@mui/material';
 import List from '@mui/material/List';
+import { FC } from 'react';
+import { navLinks } from '../../constants/navLinks';
 import NavListItem from './components/NavListItem';
 
-const Sidebar = () => {
+const Sidebar: FC = () => {
 	return (
-		<Box
-			sx={{
-				width: 180,
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				padding: 1,
-			}}
-		>
+		<Root>
 			<List>
-				<NavListItem text={'Project'} icon={<InboxIcon />} />
-				<NavListItem text={'Project'} icon={<InboxIcon />} />
+				{navLinks.map((link) => (
+					<NavListItem to={link.to} text={link.title} icon={link.icon} />
+				))}
 			</List>
-		</Box>
+		</Root>
 	);
 };
 
 export default Sidebar;
+
+const Root = styled('div')(({ theme }) => ({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	minHeight: 'calc(100vh - 70px)',
+	width: 200,
+	minWidth: 200,
+	background: theme.palette.background.paper,
+}));

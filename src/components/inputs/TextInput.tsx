@@ -1,12 +1,13 @@
-import { TextField } from '@mui/material';
+import { TextField, TextFieldProps } from '@mui/material';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-interface Props {
+type Props = TextFieldProps & {
 	name: string;
 	label?: string;
-}
-const TextInput: FC<Props> = ({ name, label }) => {
+};
+
+const TextInput: FC<Props> = ({ name, label, ...props }) => {
 	const { control, register } = useFormContext();
 
 	return (
@@ -14,7 +15,6 @@ const TextInput: FC<Props> = ({ name, label }) => {
 			name={name}
 			control={control}
 			render={({ field, formState: { errors } }) => {
-				console.log('field', field);
 				return (
 					<TextField
 						{...field}
@@ -25,6 +25,7 @@ const TextInput: FC<Props> = ({ name, label }) => {
 						error={!!errors[name]}
 						helperText={errors?.[name]?.message?.toString()}
 						{...register(name)}
+						{...props}
 					/>
 				);
 			}}

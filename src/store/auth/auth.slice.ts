@@ -19,14 +19,12 @@ export const authSlice = createSlice({
 				...initialState,
 			};
 		},
-		setUser: (state, { payload }): AuthState => ({
-			...state,
-			user: payload,
-		}),
-		setToken: (state, { payload }): AuthState => ({
-			...state,
-			token: payload,
-		}),
+		setUser: (state, { payload }): void => {
+			state.user = payload;
+		},
+		setToken: (state, { payload }): void => {
+			state.token = payload;
+		},
 	},
 });
 

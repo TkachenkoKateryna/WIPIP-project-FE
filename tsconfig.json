@@ -16,6 +16,10 @@
 		"noEmit": true,
 		"jsx": "react-jsx"
 	},
+<<<<<<< HEAD
+	"include": ["."]
+=======
 	"include": ["."],
 	"files": ["src/types/theme.d.ts"]
+>>>>>>> main
 }

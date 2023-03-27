@@ -8,6 +8,7 @@ const palette: PaletteOptions = {
 	primary: {
 		main: primaryColor,
 		light: lighten(primaryColor, 0.15),
+		100: lighten(primaryColor, 0.8),
 	},
 	secondary: {
 		main: secondaryColor,

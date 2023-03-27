@@ -1,13 +1,15 @@
-import { FC } from 'react';
-import { IconButton, styled, Typography } from '@mui/material';
-import { Logout, Login } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { useNavigate } from 'react-router-dom';
+import { Button, IconButton, styled, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { FC } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { ReactComponent as ReactLogo } from '../../assets/images/logo.svg';
+import Logo from '../../components/shared/Logo';
+
+import { logoutThunk } from '../../store/auth/auth.actions';
 import { getUser } from '../../store/auth/auth.selectors';
 import { useDispatch, useSelector } from '../../store/store';
-import { logout } from '../../store/auth/auth.slice';
 
 const Header: FC = () => {
 	const user = useSelector(getUser);
@@ -16,33 +18,29 @@ const Header: FC = () => {
 
 	return (
 		<Root>
-			<LogoWrapper>
-				<ReactLogo />
+			<LogoWrapper isAuthorized={!!user.name}>
+				<Logo />
 			</LogoWrapper>
-
 			{user.name ? (
-				<InfoWrapper>
-					<Typography variant='subtitle2' height={'fit-content'}>
-						{user.name}
-					</Typography>
+				<Box display='flex' alignItems='center'>
+					<Typography height={'fit-content'}>{user.name}</Typography>
 					<IconButton>
-						<PersonOutlineIcon fontSize='large' />
+						<PersonOutlineIcon fontSize='medium' />
 					</IconButton>
-					<IconButton>
+					<IconButton disableRipple>
 						<Logout
-							fontSize='large'
-							onClick={() => {
-								dispatch(logout());
-								localStorage.removeItem('token');
+							fontSize='medium'
+							onClick={async () => {
+								await dispatch(logoutThunk());
 								navigate('/');
 							}}
 						/>
 					</IconButton>
-				</InfoWrapper>
+				</Box>
 			) : (
-				<IconButton>
-					<Login fontSize='large' />
-				</IconButton>
+				<Button component={Link} to='/auth/login' variant='contained'>
+					Login
+				</Button>
 			)}
 		</Root>
 	);
@@ -54,21 +52,22 @@ const Root = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'space-between',
-	width: '100% ',
+	width: '100%',
 	height: 70,
-	padding: theme.spacing(),
 	boxSizing: 'border-box',
+	paddingRight: theme.spacing(2.5),
 }));
 
-const InfoWrapper = styled('div')(() => ({
-	display: 'flex',
-	alignItems: 'center',
-}));
-
-const LogoWrapper = styled('div')(({ theme }) => ({
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	boxSizing: 'border-box',
-	padding: theme.spacing(),
-}));
+const LogoWrapper = styled(Box)<{ isAuthorized: boolean }>(
+	({ theme, isAuthorized }) => ({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 200,
+		minWidth: 200,
+		height: '100%',
+		background: isAuthorized
+			? theme.palette.background.paper
+			: theme.palette.background.default,
+	})
+);
