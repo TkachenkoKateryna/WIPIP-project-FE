@@ -5,6 +5,10 @@ const Path = {
 	login: 'login',
 	register: 'register',
 
+	projects: 'projects',
+	employees: 'employees',
+	stakeholders: 'stakeholders',
+
 	default: '*',
 };
 

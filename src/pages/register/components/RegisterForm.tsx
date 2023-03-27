@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, styled, Typography } from '@mui/material';
+import { Button, Stack, styled, Typography } from '@mui/material';
 import { FC } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -41,9 +41,9 @@ const RegisterForm: FC = () => {
 	};
 
 	return (
-		<Root>
-			<FormProvider {...methods}>
-				<form onSubmit={methods.handleSubmit(onSubmit)}>
+		<FormProvider {...methods}>
+			<form onSubmit={methods.handleSubmit(onSubmit)}>
+				<Stack spacing={1}>
 					<TextInput name='username' label='Username' />
 					<TextInput name='email' label='Email' />
 					<TextInput name='password' label='Password' />
@@ -56,23 +56,10 @@ const RegisterForm: FC = () => {
 					<Button type='submit' variant='contained'>
 						Register
 					</Button>
-				</form>
-			</FormProvider>
-		</Root>
+				</Stack>
+			</form>
+		</FormProvider>
 	);
 };
 
 export default RegisterForm;
-
-const Root = styled('div')(({ theme }) => ({
-	form: {
-		display: 'flex',
-		flexDirection: 'column',
-	},
-	button: {
-		marginBottom: theme.spacing(),
-	},
-	p: {
-		margin: theme.spacing(1, 0, 1, 0),
-	},
-}));

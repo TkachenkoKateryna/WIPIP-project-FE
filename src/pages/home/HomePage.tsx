@@ -1,5 +1,7 @@
+import Page from '../../components/containers/Page';
+
 const HomePage = () => {
-	return <div>HomePage</div>;
+	return <Page title='Homepage'>HomePage</Page>;
 };
 
 export default HomePage;

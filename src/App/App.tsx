@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarLoader } from 'react-spinners';
 import { ToastContainer } from 'react-toastify';
 
+import { ErrorFallback } from '../components/errors/ErrorFallback';
+import Loader from '../components/shared/Loader';
 import MainLayout from '../layout/MainLayout';
 import { authorize } from '../store/auth/auth.actions';
 import { useDispatch } from '../store/store';
 import { ErrorBoundary } from './../components/errors/ErrorBoundary';
-import { ErrorFallback } from '../components/errors/ErrorFallback';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,18 +19,14 @@ const App: FC = () => {
 
 	const [loading, setLoading] = useState(true);
 
-	console.log('loading', loading);
-
 	useEffect(() => {
 		setLoading(true);
 
 		const fetchUser = async (): Promise<void> => {
 			try {
-				if (jwt) {
-					const res = await dispatch(authorize(jwt));
-					if (res?.expired) {
-						navigate('/');
-					}
+				const res = await dispatch(authorize(String(jwt)));
+				if (res?.expired) {
+					navigate('/');
 				}
 			} finally {
 				setLoading(false);
@@ -44,7 +40,7 @@ const App: FC = () => {
 		}
 	}, []);
 
-	if (loading) return <BarLoader color='#36d7b7' />;
+	if (loading) return <Loader />;
 
 	return (
 		<ErrorBoundary fallback={<ErrorFallback />}>

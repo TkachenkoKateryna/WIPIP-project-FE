@@ -73,8 +73,14 @@ const Auth = {
 	getUser: () => requests.get<User>('/user'),
 };
 
+const Projects = {
+	fetchAll: () => requests.get<Project[]>('/projects'),
+	fetchById: (id: string) => requests.get<Project>(`/project/${id}`),
+};
+
 const agent = {
 	Auth,
+	Projects,
 };
 
 export default agent;
