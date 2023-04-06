@@ -72,6 +72,15 @@ const componentsOverrides = (theme: Theme): Components<unknown> => ({
 			},
 		},
 	},
+	MuiButton: {
+		styleOverrides: {
+			root: {
+				textTransform: 'initial',
+				lineHeight: 1.5,
+				borderRadius: 8,
+			},
+		},
+	},
 });
 
 export default componentsOverrides;

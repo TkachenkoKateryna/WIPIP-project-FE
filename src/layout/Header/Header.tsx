@@ -17,8 +17,8 @@ const Header: FC = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Root>
-			<LogoWrapper isAuthorized={!!user.name}>
+		<Root isAuthorized={!!user.name}>
+			<LogoWrapper>
 				<Logo />
 			</LogoWrapper>
 			{user.name ? (
@@ -48,26 +48,25 @@ const Header: FC = () => {
 
 export default Header;
 
-const Root = styled('div')(({ theme }) => ({
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'space-between',
-	width: '100%',
-	height: 70,
-	boxSizing: 'border-box',
-	paddingRight: theme.spacing(2.5),
-}));
-
-const LogoWrapper = styled(Box)<{ isAuthorized: boolean }>(
+const Root = styled('div')<{ isAuthorized: boolean }>(
 	({ theme, isAuthorized }) => ({
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center',
-		width: 200,
-		minWidth: 200,
-		height: '100%',
-		background: isAuthorized
-			? theme.palette.background.paper
-			: theme.palette.background.default,
+		justifyContent: 'space-between',
+		width: '100%',
+		height: 70,
+		boxSizing: 'border-box',
+		paddingRight: theme.spacing(2.5),
+		background: theme.palette.background[isAuthorized ? 'default' : 'paper'],
 	})
 );
+
+const LogoWrapper = styled(Box)(({ theme }) => ({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	width: 200,
+	minWidth: 200,
+	height: '100%',
+	background: theme.palette.background.paper,
+}));

@@ -28,8 +28,10 @@ const Root = styled('div')({
 	minHeight: '100vh',
 	display: 'flex',
 	flexWrap: 'wrap',
+	alignContent: 'flex-start',
 });
 
 const Main = styled('main')(() => ({
 	flex: 1,
+	minHeight: 'calc(100vh - 70px)',
 }));

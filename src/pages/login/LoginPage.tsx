@@ -22,10 +22,12 @@ const LoginPage: FC = () => {
 
 export default LoginPage;
 
-const Root = styled('div')({
+const Root = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
-});
+	height: '100%',
+	background: theme.palette.background.paper,
+}));
 
 const FormWrapper = styled('div')({
 	flex: 1,
