@@ -22,8 +22,10 @@ const Projects = () => {
 	const { data, loading, loaded } = useSelector(getAllProjects);
 
 	useEffect(() => {
-		dispatch(fetchAllProjects());
-	}, []);
+		if (!loaded) {
+			dispatch(fetchAllProjects());
+		}
+	}, [loaded]);
 
 	return (
 		<Page title={'Projects'}>

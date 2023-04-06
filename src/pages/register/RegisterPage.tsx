@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { styled } from '@mui/material';
+
 import RegisterForm from './components/RegisterForm';
 import AuthSrc from '../../assets/images/login.png';
 import Page from '../../components/containers/Page';
@@ -21,10 +22,12 @@ const RegisterPage: FC = () => {
 
 export default RegisterPage;
 
-const Root = styled('div')({
+const Root = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
-});
+	background: theme.palette.background.paper,
+	height: '100%',
+}));
 
 const FormWrapper = styled('div')({
 	flex: 1,
